@@ -1,0 +1,78 @@
+# This is a demo config to showcase some of the most important commands.
+# It is meant to be changed and configured, as it is intentionally kept sparse.
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+sketchybar --bar position=top height=25 topmost=off blur_radius=0 color=0x00000000
+
+##### Changing Defaults #####
+# We now change some default values, which are applied to all further items.
+# For a full list of all available item properties see:
+# https://felixkratz.github.io/SketchyBar/config/items
+
+default=(
+  padding_left=5
+  padding_right=5
+  icon.font="Hack Nerd Font:Bold:17.0"
+  label.font="Hack Nerd Font:Bold:14.0"
+  icon.color=0xffffffff
+  label.color=0xffffffff
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+)
+sketchybar --default "${default[@]}"
+
+##### Adding Clock #####
+# Displays the current date/time, centered on the bar
+
+sketchybar --add item clock center \
+           --set clock update_freq=1 \
+                       icon.drawing=off \
+                       blur_radius=30 \
+                       background.drawing=on \
+                       background.color=0x40000000 \
+                       background.corner_radius=8 \
+                       background.height=22 \
+                       script="$PLUGIN_DIR/clock.sh"
+
+##### Adding Pomodoro Timer #####
+# Left click: start/pause, Right click: reset, Shift+Left click: skip phase
+
+sketchybar --add item pomodoro right \
+           --set pomodoro update_freq=1 \
+                          icon.drawing=off \
+                          blur_radius=30 \
+                          background.drawing=on \
+                          background.color=0x40000000 \
+                          background.corner_radius=8 \
+                          background.height=22 \
+                          script="$PLUGIN_DIR/pomodoro.sh" \
+                          click_script="$PLUGIN_DIR/pomodoro.sh"
+
+##### Adding Water Reminder #####
+# Click (any button) to acknowledge and restart the countdown
+
+sketchybar --add item water right \
+           --set water update_freq=1 \
+                       icon.drawing=off \
+                       blur_radius=30 \
+                       background.drawing=on \
+                       background.color=0x40000000 \
+                       background.corner_radius=8 \
+                       background.height=22 \
+                       script="$PLUGIN_DIR/water.sh" \
+                       click_script="$PLUGIN_DIR/water.sh"
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update
